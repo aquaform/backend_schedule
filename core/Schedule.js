@@ -82,7 +82,8 @@ class Schedule {
 				name: el.Description,
 				abb_name: Schedule.abb_division(el.Description)
 			}
-		)).filter(el => (el.abb_name.indexOf('чн') === -1) && el.abb_name !== 'Старые')
+		)).filter(el => (el.abb_name.indexOf('чн') === -1) && el.abb_name !== 'Старые' && (el.abb_name.indexOf('ыть') === -1) && (el.abb_name.indexOf('Раб') === -1))
+		//)).filter(el => (el.abb_name === '№3,'))
 	}
 
 	getCourses(divisionId) {
@@ -112,8 +113,8 @@ class Schedule {
 	async getGroupCourse(groupId) {
 		const courses = await this.odata1c.getObjects(`InformationRegister_КурсыУчебныхГрупп_RecordType()/SliceLast`, 
 			`УчебнаяГруппа_Key eq guid'${groupId}'`)
-		
-		return courses[0]['Курс']	
+
+		return courses[0]['Курс']
 	}
 
 	async getSubject(subjectType, subjectId) {

@@ -24,9 +24,7 @@ const start = async (next = false) => {
 		useUnifiedTopology: true }
 	)
   
-
 	const data1c = await collegeSchedule.getLessons(removeTimeZone(startOfWeek.toISO()), removeTimeZone(endOfWeek.toISO()), 'all')
- cosole.log(data1c)
 
 	const currentWeek = await Week.findOne({ dateStart: startOfWeek.plus({hours: 5}) }).exec()
 	const newVersion = currentWeek ? currentWeek.version + 1 : 1
