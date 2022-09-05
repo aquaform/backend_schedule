@@ -11,7 +11,7 @@ const removeTimeZone = require('./core/utils')
 
 
 const start = async (next = false) => {
-	const odata = new Odata1C('http://5.141.9.194/college', 'odata', 'Populizm123')
+	const odata = new Odata1C('https://college.sielom.ru/college', 'odata', 'Populizm123')
 	const collegeSchedule = new Schedule(odata)
 
 	const today = next ? DateTime.local().plus({ weeks: 1}).setZone('Asia/Yekaterinburg') : DateTime.local().setZone('Asia/Yekaterinburg') 
@@ -23,8 +23,10 @@ const start = async (next = false) => {
 		useFindAndModify: false,
 		useUnifiedTopology: true }
 	)
+  
 
 	const data1c = await collegeSchedule.getLessons(removeTimeZone(startOfWeek.toISO()), removeTimeZone(endOfWeek.toISO()), 'all')
+ cosole.log(data1c)
 
 	const currentWeek = await Week.findOne({ dateStart: startOfWeek.plus({hours: 5}) }).exec()
 	const newVersion = currentWeek ? currentWeek.version + 1 : 1

@@ -28,7 +28,7 @@ router.get('/api/lessons/week/:week_id', async (req, res) => {
 
 router.get('/api/lessons/load', async (req, res) => {  
     loadLessons(false)
-    loadLessons(true)
+    //loadLessons(true)
        
     res.json('ok')
 })

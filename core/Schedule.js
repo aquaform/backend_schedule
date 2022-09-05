@@ -25,7 +25,7 @@ class Schedule {
 		let result = []
 		let currentDay = dateStart
 		let lessonsForDay = [];
-
+     
 		while (removeTimeZone(DateTime.fromISO(currentDay).endOf('day').toISO()) !== dateEnd) {
 			// const lessons = await this.odata1c.getObjects('InformationRegister_РасписаниеНаДату_RecordType()',
 			// 	`
@@ -36,7 +36,7 @@ class Schedule {
 			// )
 			lessonsForDay = await this.getLessonsForData(currentDay, param.filter)
 			result = [...result, ...lessonsForDay]
-			currentDay = removeTimeZone(DateTime.fromISO(currentDay).plus({days: 1}).toISO())
+			currentDay = removeTimeZone(DateTime.fromISO(currentDay).plus({days: 1}).toISO())      
 		}
 
 		return result
