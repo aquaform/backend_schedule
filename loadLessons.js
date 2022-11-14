@@ -6,6 +6,8 @@ const Schedule = require('./core/Schedule')
 
 const Week = require('./models/Week')
 const Lesson = require('./models/Lesson')
+const Division = require('./models/Division')
+const Group = require('./models/Group')
 
 const removeTimeZone = require('./core/utils')
 
@@ -24,7 +26,9 @@ const start = async (next = false) => {
 		useUnifiedTopology: true }
 	)
   
-	const data1c = await collegeSchedule.getLessons(removeTimeZone(startOfWeek.toISO()), removeTimeZone(endOfWeek.toISO()), 'all')
+	const data1cLessons = await collegeSchedule.getLessons(removeTimeZone(startOfWeek.toISO()), removeTimeZone(endOfWeek.toISO()), 'all')
+	const data1cDivisions = await collegeSchedule.getDivisions()
+	const data1cGroups = await collegeSchedule.getGroups()
 
 	const currentWeek = await Week.findOne({ dateStart: startOfWeek.plus({hours: 5}) }).exec()
 	const newVersion = currentWeek ? currentWeek.version + 1 : 1
@@ -46,11 +50,37 @@ const start = async (next = false) => {
 			count: countOfWeek,
 			version: newVersion })
 	}
-	
-	data1c.forEach((lesson1C) => {
+
+	data1cDivisions.forEach((division1C) => {
+		const division = new Division({
+			_id: new mongoose.Types.ObjectId(),
+			name: division1C.name,
+			abb_name: division1C.abb_name,
+			id_1c: division1C.id
+		})
+
+		division.save()
+	})
+
+	data1cGroups.forEach((group1C) => {
+		const group = new Group({
+			_id: new mongoose.Types.ObjectId(),
+			name: group1C.name,
+			divisionId: group1C.divisionId,
+			course: group1C.course,
+			id_1c: group1C.id,
+		})
+
+		group.save()
+	})
+
+
+	data1cLessons.forEach((lesson1C) => {
+
 		const lesson = new Lesson({
 			_id: new mongoose.Types.ObjectId(),
-			date: DateTime.fromISO(lesson1C.date, {zone: 'Asia/Yekaterinburg'}).plus({hours: 5}).toISO().split('T')[0],
+			date: DateTime.fromISO(lesson1C.date, {zone: 'Asia/Yekaterinburg'})
+				.plus({hours: 5}).toISO().split('T')[0],
 			lessonNumber: lesson1C.lessonNumber,
 			subgroup: lesson1C.subgroup,
 			group: {

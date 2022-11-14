@@ -1,4 +1,4 @@
-const { DateTime, Interval } = require('luxon')
+const { DateTime } = require('luxon')
 const removeTimeZone = require('../core/utils')
 
 class Schedule {
@@ -86,25 +86,18 @@ class Schedule {
 		//)).filter(el => (el.abb_name === '№3,'))
 	}
 
-	getCourses(divisionId) {
-		return [1, 2, 3, 4]
-	}
-
-	async getGroups(divisionId) {
-		const groupsOnDivision =  await this.odata1c.getObjects(`Catalog_УчебныеГруппы`, 
-			`
-				Отделение_Key eq guid'${divisionId}'
-				and Статус eq 'Учится'
-			`
-		)
+	async getGroups() {
+		const groupsOnDivision =  await this.odata1c.getObjects(`Catalog_УчебныеГруппы`, `Статус eq 'Учится'`)
 
 		const promises = groupsOnDivision.map(async group => {
+
 			const course =  await this.getGroupCourse(group.Ref_Key)
 			return { 
 				id: group.Ref_Key, 
 				name: group.Description, 
-				course, 
-				divisionId}
+				course,
+				divisionId: group['Отделение_Key']
+			}
 		})
 
 		return Promise.all(promises)
@@ -114,7 +107,7 @@ class Schedule {
 		const courses = await this.odata1c.getObjects(`InformationRegister_КурсыУчебныхГрупп_RecordType()/SliceLast`, 
 			`УчебнаяГруппа_Key eq guid'${groupId}'`)
 
-		return courses[0]['Курс']
+		return courses[0] ? courses[0]['Курс'] : 0
 	}
 
 	async getSubject(subjectType, subjectId) {
@@ -137,6 +130,14 @@ class Schedule {
 			name: teacher.Description, 
 			abb_name: teacher.Description.replace(/(.+) (.).+ (.).+/, '$1 $2.$3.')
 		}
+	}
+
+	async getTeachers() {
+		return await this.odata1c.getObjects(`Catalog_Сотрудники`)
+	}
+
+	async getCabinets() {
+		return await this.odata1c.getObjects(`Catalog_Аудитории`)
 	}
 
 	async getGroup(groupId) {

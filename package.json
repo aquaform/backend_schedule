@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
@@ -14,10 +15,13 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "express-handlebars": "^5.1.0",
     "luxon": "^1.25.0",
     "moment": "^2.29.0",
     "mongoose": "^5.10.5",
-    "strapi": "^3.6.8"
+    "nodemon": "^2.0.20",
+    "pretier": "^0.0.1"
+  },
+  "devDependencies": {
+    "prettier": "2.7.1"
   }
 }
