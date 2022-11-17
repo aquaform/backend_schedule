@@ -1,7 +1,7 @@
 const Week = require('../../schemes/Week')
 
-const loadWeek = ({week}) => {
-    const newWeek = new Week({week})
+const loadWeek = async (week) => {
+    const newWeek = await Week.create(week)
 
     newWeek.save()
 }

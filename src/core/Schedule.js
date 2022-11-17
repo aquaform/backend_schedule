@@ -48,7 +48,7 @@ class Schedule {
 			const res = {
 				doc_id: lesson.Recorder_Key,
 				date,
-				lessonNumber: lesson['НомерПары'], 
+				lessonNumber: lesson['НомерПары'],
 				subgroup: lesson['Подгруппа'],
 				subject,
 				teacher,

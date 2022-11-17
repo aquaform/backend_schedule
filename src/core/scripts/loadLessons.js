@@ -27,7 +27,7 @@ const loadLessons = async (next = false) => {
 	const startOfWeek = today.startOf('week')
 	const endOfWeek =  today.endOf('week')
 
-	const dayStart =removeTimeZone(startOfWeek.toISO())
+	const dayStart = removeTimeZone(startOfWeek.toISO())
 
 	// const data1cLessons = await collegeSchedule.getLessons(removeTimeZone(startOfWeek.toISO()), removeTimeZone(endOfWeek.toISO()), 'all')
 	// data1cLessons.forEach(loadLesson)
@@ -72,7 +72,7 @@ const loadLessons = async (next = false) => {
 				dateEnd: endOfWeek.plus({hours: 5}).toISO(),
 				semester,
 				count: countOfWeek,
-				version: newVersion
+				version: weekVersion
 			})
 		}
 
@@ -124,7 +124,7 @@ const loadLessons = async (next = false) => {
 		lesson.save()
 	}
 
-	loadWeekLessons()
+	await loadWeekLessons()
 }
 
 module.exports = loadLessons
