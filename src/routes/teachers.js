@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const Lesson = require("../models/Lesson");
+const Lesson = require("../schemes/Lesson");
 
 const router = Router()
 

@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const weeksRoutes = require("./routes/weeks.js");
-const lessonsRoutes = require("./routes/lessons.js");
-const groupRoutes = require("./routes/groups.js");
-const divisionsRoutes = require("./routes/divisions.js");
-const teachersRoutes = require("./routes/teachers.js");
+const weeksRoutes = require("./src/routes/weeks.js");
+const lessonsRoutes = require("./src/routes/lessons.js");
+const groupRoutes = require("./src/routes/groups.js");
+const divisionsRoutes = require("./src/routes/divisions.js");
+const teachersRoutes = require("./src/routes/teachers.js");
 
 const app = express();
-app.use(cors());
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 

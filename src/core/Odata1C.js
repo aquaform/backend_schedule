@@ -6,13 +6,13 @@ class Odata1C {
 		this.auth = { username, password }		
 	}
 
-	async getStandardObjects() {
-		return await axios({
-			method: 'get',
-			url: this.url + '$metadata',
-			auth: this.auth
-		})
-	}
+	// async getStandardObjects() {
+	// 	return await axios({
+	// 		method: 'get',
+	// 		url: this.url + '$metadata',
+	// 		auth: this.auth
+	// 	})
+	// }
 
 	async getObjects(object1c, param) {
 		const filter = param ? '?$filter=' + param : ''

@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const { DateTime } = require("luxon");
 
-const Lesson = require("../models/Lesson");
-const Week = require("../models/Week");
-const loadLessons = require("../loadLessons");
+const Lesson = require("../schemes/Lesson");
+const Week = require("../schemes/Week");
+const loadLessons = require("../core/scripts/loadLessons");
 
 const router = Router();
 
@@ -13,6 +13,7 @@ router.get("/api/lessons/date/:date", async (req, res) => {
     .startOf("week")
     .plus({ hours: 5 })
     .toISO();
+
   const week = await Week.findOne({ dateStart: startOfWeek }).lean();
   const lessons = await Lesson.find({
     date: req.params.date,
@@ -93,7 +94,7 @@ router.get("/api/lessons/load", async (req, res) => {
   loadLessons(false);
   //loadLessons(true)
 
-  res.json("ok");
+  res.json("Загрузка уроков...");
 });
 
 module.exports = router;

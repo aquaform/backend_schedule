@@ -1,5 +1,5 @@
 const { DateTime } = require('luxon')
-const removeTimeZone = require('../core/utils')
+const removeTimeZone = require('../utils/helpers/utils')
 
 class Schedule {
     static abb_division(name) {
@@ -14,26 +14,14 @@ class Schedule {
 		const param = {}
 		param.dateStart = dateStart
 		param.dateEnd = dateEnd
-		if (type === 'teacher'){
-			param.filter = `and Преподаватель_Key eq guid'${id}'`
-		} else if (type === 'group'){
-			param.filter = `and УчебнаяГруппа_Key eq guid'${id}'`
-		} else {
-			param.filter = ''
-		}
+		param.filter = ''
+
 		
 		let result = []
 		let currentDay = dateStart
 		let lessonsForDay = [];
      
 		while (removeTimeZone(DateTime.fromISO(currentDay).endOf('day').toISO()) !== dateEnd) {
-			// const lessons = await this.odata1c.getObjects('InformationRegister_РасписаниеНаДату_RecordType()',
-			// 	`
-			// 		ДатаРасписания ge datetime'${dateStart}' 
-			// 		and ДатаРасписания le datetime'${dateEnd}'
-			// 		${param.filter}
-			// 	`
-			// )
 			lessonsForDay = await this.getLessonsForData(currentDay, param.filter)
 			result = [...result, ...lessonsForDay]
 			currentDay = removeTimeZone(DateTime.fromISO(currentDay).plus({days: 1}).toISO())      
@@ -46,7 +34,7 @@ class Schedule {
 		const lessons = await this.odata1c.getObjects('InformationRegister_РасписаниеНаДату_RecordType()',
 			`
 				ДатаРасписания eq datetime'${day}' 
-				${filter}
+				${filter ? filter : ""}
 			`
 		)
 
@@ -132,14 +120,6 @@ class Schedule {
 		}
 	}
 
-	async getTeachers() {
-		return await this.odata1c.getObjects(`Catalog_Сотрудники`)
-	}
-
-	async getCabinets() {
-		return await this.odata1c.getObjects(`Catalog_Аудитории`)
-	}
-
 	async getGroup(groupId) {
 		const groups = await this.odata1c.getObjects(`Catalog_УчебныеГруппы`, `Ref_Key eq guid'${groupId}'`)
 		const course = await this.getGroupCourse(groupId)
@@ -163,7 +143,6 @@ class Schedule {
 		} : ''
 	}
 
-	
 	async getDivision(divisionId) {		
 		const divisions = await this.odata1c.getObjects(`Catalog_Отделения`, `Ref_Key eq guid'${divisionId}'`)
 		const division = divisions[0]	
@@ -174,15 +153,6 @@ class Schedule {
 		}			
 	}
 
-	async getTerritory(territoryId) {
-		const territories = await this.odata1c.getObjects(`Catalog_Территории`, `Ref_Key eq guid'${territoryId}'`)		
-		const territory = territories[0]
-		return territory ? { 
-			id: territory.Ref_Key, 
-			name: territory.Description,
-			abb_name: territory['СокращенноеНаименование']
-		} : ''
-	}	
 }
 
 

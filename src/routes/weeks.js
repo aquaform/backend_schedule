@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const { DateTime } = require('luxon')
 
-const Week = require('../models/Week')
+const Week = require('../schemes/Week')
 
 const today = DateTime.local()
 
