@@ -7,6 +7,9 @@ const Division = require('../../schemes/Division')
 
 
 const loadDivisions = async () => {
+    // удаление предыдущих записей
+    await Division.deleteMany({})
+
     const odata = new Odata1C('https://college.sielom.ru/college', 'odata', 'Populizm123')
     const collegeSchedule = new Schedule(odata)
 

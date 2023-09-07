@@ -42,11 +42,22 @@ const loadLessons = async (next = false) => {
 		})
 
 		const {weekVersion, weekId} = await getCurrentWeek()
+		let daysCount  = 0
 
 		for (const day of weekDays) {
 			const lessonsDay = await getLessonsForDay(day)
-			lessonsDay.forEach(lesson => loadLesson(lesson, weekVersion, weekId))
+			if (lessonsDay.length !== 0) {
+				lessonsDay.forEach(lesson => loadLesson(lesson, weekVersion, weekId))
+				daysCount++;
+			}
 		}
+
+		if (daysCount === 0) {
+			console.log("Lessons not find")
+			return;
+		}
+
+		await Lesson.deleteMany({ version: { $lte: +weekVersion - 1 }, week_id: weekId });
 
 		console.log('All lessons loaded!')
 	}

@@ -6,6 +6,9 @@ const Group = require('../../schemes/Group')
 
 
 const loadGroups = async () => {
+    // удалить предыдущие записи
+    await Group.deleteMany({});
+
     const odata = new Odata1C('https://college.sielom.ru/college', 'odata', 'Populizm123')
     const collegeSchedule = new Schedule(odata)
 

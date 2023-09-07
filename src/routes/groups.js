@@ -14,7 +14,7 @@ router.get('/api/groups/', async (req, res) => {
 router.get("/api/groups/load", async (req, res) => {
     loadGroups()
 
-    res.json("groups loading in db...")
+    res.json("groups loading in db. ..")
 })
 
 

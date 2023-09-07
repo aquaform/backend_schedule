@@ -57,7 +57,7 @@ router.get("/api/lessons/division", async (req, res) => {
 
   if (!week_id || !divisionName ) {
     return res.json({
-      error: "не заданы параметры week_id и divisionName",
+      error: "не заданы параметры week_id и divisionName"
     });
   }
 
@@ -76,7 +76,7 @@ router.get("/api/lessons/teacher", async (req, res) => {
 
   if (!week_id || !teacherName ) {
     return res.json({
-      error: "не заданы параметры week_id и teacherName",
+      error: "не заданы параметры week_id и teacherName"
     });
   }
 
@@ -92,9 +92,14 @@ router.get("/api/lessons/teacher", async (req, res) => {
 
 router.get("/api/lessons/load", async (req, res) => {
   loadLessons(false);
-  //loadLessons(true)
 
   res.json("Загрузка уроков...");
+});
+
+router.get("/api/lessons/load/next", async (req, res) => {
+  loadLessons(true)
+
+  res.json("Загрузка уроков следующей недели...");
 });
 
 module.exports = router;
