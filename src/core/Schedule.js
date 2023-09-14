@@ -45,6 +45,12 @@ class Schedule {
 			const group = await this.getGroup(lesson['УчебнаяГруппа_Key'])
 			const cabinet = await this.getCabinet(lesson['Аудитория_Key'])
 			const division = await this.getDivision(group.divisionId)
+			const timeStartDt = DateTime.fromISO(lesson['ВремяНачала'])
+			const timeEndDt =  DateTime.fromISO(lesson['ВремяОкончания'])
+			const timeStart = timeStartDt.hour + ':' + timeStartDt.minute
+			const timeEnd = timeEndDt.hour + ':' + timeEndDt.minute
+
+
 			const res = {
 				doc_id: lesson.Recorder_Key,
 				date,
@@ -54,9 +60,11 @@ class Schedule {
 				teacher,
 				group,
 				cabinet,
-				division
+				division,
+				timeStart,
+				timeEnd
 			}
-			return res				
+			return res
 		})
 		
 		return Promise.all(promises)

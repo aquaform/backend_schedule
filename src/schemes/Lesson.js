@@ -4,6 +4,8 @@ const schema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     date: String,
     lessonNumber: Number,
+    timeStart: String,
+    timeEnd: String,
     subgroup: Number,
     doc_id_1c: String,
     version: Number,    

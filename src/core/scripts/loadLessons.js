@@ -96,6 +96,8 @@ const loadLessons = async (next = false) => {
 			date: DateTime.fromISO(lesson1C.date, {zone: 'Asia/Yekaterinburg'})
 				.plus({hours: 5}).toISO().split('T')[0],
 			lessonNumber: lesson1C.lessonNumber,
+			timeStart: lesson1C.timeStart,
+			timeEnd: lesson1C.timeEnd,
 			subgroup: lesson1C.subgroup,
 			group: {
 				name: lesson1C.group.name,
