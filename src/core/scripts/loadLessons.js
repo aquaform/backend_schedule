@@ -8,7 +8,7 @@ const Week = require('../../schemes/Week')
 const Lesson = require('../../schemes/Lesson')
 const loadWeek = require('./loadWeek')
 
-const removeTimeZone = require('../../utils/helpers/utils')
+const { removeTimeZone } = require('../../utils/helpers/utils')
 
 const loadLessons = async (next = false) => {
 	await mongoose.connect('mongodb://localhost:27017/schedule', {
