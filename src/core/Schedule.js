@@ -1,5 +1,5 @@
 const { DateTime } = require('luxon')
-const removeTimeZone = require('../utils/helpers/utils')
+const {removeTimeZone, addZero }= require('../utils/helpers/utils')
 
 class Schedule {
     static abb_division(name) {
@@ -47,8 +47,8 @@ class Schedule {
 			const division = await this.getDivision(group.divisionId)
 			const timeStartDt = DateTime.fromISO(lesson['ВремяНачала'])
 			const timeEndDt =  DateTime.fromISO(lesson['ВремяОкончания'])
-			const timeStart = timeStartDt.hour + ':' + timeStartDt.minute
-			const timeEnd = timeEndDt.hour + ':' + timeEndDt.minute
+			const timeStart = addZero(timeStartDt.hour) + ':' + addZero(timeStartDt.minute)
+			const timeEnd = addZero(timeEndDt.hour) + ':' + addZero(timeEndDt.minute)
 
 
 			const res = {
