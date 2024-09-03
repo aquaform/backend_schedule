@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
+const adminPanel = require("./src/routes/adminPanel.js");
 const weeksRoutes = require("./src/routes/weeks.js");
 const lessonsRoutes = require("./src/routes/lessons.js");
 const groupRoutes = require("./src/routes/groups.js");
@@ -15,12 +16,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 app.use("/schedule/", weeksRoutes);
 app.use("/schedule/", lessonsRoutes);
 app.use("/schedule/", groupRoutes);
 app.use("/schedule/", divisionsRoutes);
 app.use("/schedule/", teachersRoutes);
+app.use("/schedule/", adminPanel);
 
 const connectToDb = async () => {
   try {
